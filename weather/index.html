@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/main.css">
+    <script src="script.js"></script>
+    <title>Weather App</title>
+</head>
+
+<body class="bg-[url('./bg.jpg')] bg-blend-soft-light bg-cover text-white" style="font-family: 'Montserrat';font-size: 22px;">
+    <!--top-->
+    <div class="container flex flex-col space-between mx-auto mt-40 flex-nowrap md:flex-row">
+        <div id="left" class="container flex flex-col">
+            <div id="weather" class="text-8xl font-extrabold"></div>
+            <div id="city" class="text-4xl font-extralight"></div>
+            <div id="temperature" class="text-6xl font-extrabold"></div>
+            <div id="icon"></div>
+            <div class ="flex mt-36 justify-start w-52 border-b-4">
+                <form id="formone" onsubmit="getNew()"><input id="search" name="search" type="text" placeholder="Enter a city" class="outline-0 w-52 border-none bg-transparent placeholder-white focus:outline-none  "></form>
+            </div>
+
+        </div>
+        <div id="right" class="flex flex-col justify-start gap-12 flex-nowrap text-2xl font-extrabold">
+            <div class = "flex flex-col">
+                <div>Feels Like</div>
+                <div id="feels" class="text-6xl"></div>
+            </div>
+            <div class = "flex flex-col">
+                <div>Humidity</div>
+                <div id = "humidity" class="text-6xl"></div>
+            </div>
+            
+            <div class="flex flex-col">
+                <div>Wind Speed</div>
+                <div id="wind" class="text-6xl"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

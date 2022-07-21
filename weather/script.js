@@ -17,7 +17,7 @@ async function getData(city) {
   return data;
 }
 
-getData("london");
+getData("olaine");
 
 const Element = document.querySelector("form")
 Element.addEventListener("submit", (event) => {

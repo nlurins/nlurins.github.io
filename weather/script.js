@@ -1,6 +1,6 @@
 async function getData(city) {
   const query = await fetch(
-    `http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=9bac5117b64a7764fb9a90466bf4f19f`, {mode:'cors'}
+    `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=9bac5117b64a7764fb9a90466bf4f19f`, {mode:'cors'}
   );
   const response = await query.json();
   const data = await response;

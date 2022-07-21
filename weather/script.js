@@ -20,10 +20,19 @@ async function getData(city) {
 }
 
 getData("london");
+input();
 
 async function getNew() {
   const str = await window.location.search;
   const newstr = await str.replace("?search=", "");
   getData(newstr);
   console.log(newstr);
+}
+
+function input(){
+  const inputbox = document.querySelector('form');
+  inputbox.addEventListener('submit', e => {
+    e.preventDefault();
+    getNew(inputbox.value);
+  });
 }

@@ -1,6 +1,5 @@
 import struct
 import numpy as np
-import json
 from scipy.interpolate import RegularGridInterpolator
 from flask import Flask, request, render_template_string
 
@@ -216,4 +215,3 @@ def upload_file():
 
 if __name__ == "__main__":
     app.run(debug=True)
-

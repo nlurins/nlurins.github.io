@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bosch ECU Map Extractor</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Bosch ECU Map Extractor</h1>
+        <form action="https://<your-app-name>.onrender.com/upload" method="post" enctype="multipart/form-data">
+            <label for="file">Upload Binary File:</label>
+            <input type="file" id="file" name="file" required>
+            
+            <label for="endianness">Endianness:</label>
+            <select id="endianness" name="endianness" required>
+                <option value="big">Big Endian</option>
+                <option value="little">Little Endian</option>
+            </select>
+            
+            <label for="rpm_axis">RPM Axis (space-separated):</label>
+            <input type="text" id="rpm_axis" name="rpm_axis" required>
+            
+            <label for="mg_cyc_axis">mg/cyc Axis (space-separated):</label>
+            <input type="text" id="mg_cyc_axis" name="mg_cyc_axis" required>
+
+            <label for="duration_address">Duration Map Start Address (hex):</label>
+            <input type="text" id="duration_address" name="duration_address" required>
+
+            <label for="rail_pressure_address">Rail Pressure Map Start Address (hex):</label>
+            <input type="text" id="rail_pressure_address" name="rail_pressure_address" required>
+            
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</body>
+</html>

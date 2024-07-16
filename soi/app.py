@@ -2,7 +2,7 @@ import struct
 import numpy as np
 import json
 from scipy.interpolate import RegularGridInterpolator
-from flask import Flask, request, jsonify
+from flask import Flask, request, render_template_string
 
 app = Flask(__name__)
 
@@ -113,6 +113,49 @@ def create_new_map(interpolator, rpm_axis, mg_cyc_axis):
 
     return new_map
 
+@app.route('/')
+def index():
+    return '''
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>SOI Calculator</title>
+        <link rel="stylesheet" href="/static/styles.css">
+    </head>
+    <body>
+        <div class="container">
+            <h1>SOI Calculator</h1>
+            <form action="/upload" method="post" enctype="multipart/form-data">
+                <label for="file">Upload Binary File:</label>
+                <input type="file" id="file" name="file" required>
+                
+                <label for="endianness">Endianness:</label>
+                <select id="endianness" name="endianness" required>
+                    <option value="big">Big Endian</option>
+                    <option value="little">Little Endian</option>
+                </select>
+                
+                <label for="rpm_axis">RPM Axis (space-separated):</label>
+                <input type="text" id="rpm_axis" name="rpm_axis" required>
+                
+                <label for="mg_cyc_axis">mg/cyc Axis (space-separated):</label>
+                <input type="text" id="mg_cyc_axis" name="mg_cyc_axis" required>
+
+                <label for="duration_address">Duration Map Start Address (hex):</label>
+                <input type="text" id="duration_address" name="duration_address" required>
+
+                <label for="rail_pressure_address">Rail Pressure Map Start Address (hex):</label>
+                <input type="text" id="rail_pressure_address" name="rail_pressure_address" required>
+                
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </body>
+    </html>
+    '''
+
 @app.route('/upload', methods=['POST'])
 def upload_file():
     file = request.files['file']
@@ -134,7 +177,43 @@ def upload_file():
     interpolator = BoschECUInterpolator(extracted_maps)
     new_map = create_new_map(interpolator, rpm_axis, mg_cyc_axis)
 
-    return jsonify(new_map)
+    return render_template_string('''
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>SOI Calculator - Results</title>
+        <link rel="stylesheet" href="/static/styles.css">
+    </head>
+    <body>
+        <div class="container">
+            <h1>Results</h1>
+            <table>
+                <thead>
+                    <tr>
+                        <th>RPM / mg/cyc</th>
+                        {% for mg_cyc in new_map['x_axis'] %}
+                        <th>{{ mg_cyc }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i, rpm in enumerate(new_map['y_axis']) %}
+                    <tr>
+                        <td>{{ rpm }}</td>
+                        {% for j in range(new_map['x_axis']|length) %}
+                        <td>{{ new_map['map'][i][j] }}</td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </body>
+    </html>
+    ''', new_map=new_map)
 
 if __name__ == "__main__":
     app.run(debug=True)
+

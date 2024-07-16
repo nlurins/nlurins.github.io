@@ -1,7 +1,7 @@
-from flask import Flask, request, render_template_string
 import struct
 import numpy as np
 from scipy.interpolate import RegularGridInterpolator
+from flask import Flask, request, render_template_string
 
 app = Flask(__name__)
 
@@ -124,71 +124,66 @@ def index():
         <style>
             body {
                 font-family: Arial, sans-serif;
-                background-color: #f0f0f0;
+                line-height: 1.6;
                 margin: 0;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                height: 100vh;
+                padding: 0;
+                background-color: #f4f4f4;
             }
-
             .container {
-                background-color: #fff;
+                max-width: 800px;
+                margin: 20px auto;
                 padding: 20px;
-                border-radius: 5px;
+                background: #fff;
+                border-radius: 8px;
                 box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            }
+            h1 {
                 text-align: center;
-                width: 300px;
-            }
-
-            form {
                 margin-bottom: 20px;
+                color: #333;
             }
-
-            form label {
+            form {
+                display: flex;
+                flex-direction: column;
+            }
+            label {
+                margin-bottom: 10px;
                 font-weight: bold;
-                display: block;
-                margin-bottom: 5px;
             }
-
-            form input[type="text"], form input[type="file"], form select {
-                width: calc(100% - 16px);
-                padding: 8px;
+            input[type="file"], input[type="text"], select {
+                padding: 10px;
+                margin-bottom: 15px;
                 border: 1px solid #ccc;
                 border-radius: 4px;
-                margin-bottom: 10px;
             }
-
-            form button {
-                width: 100%;
-                padding: 10px 0;
-                background-color: #007BFF;
+            button {
+                padding: 10px 20px;
+                background-color: #4CAF50;
                 color: white;
                 border: none;
                 border-radius: 4px;
                 cursor: pointer;
+                font-size: 16px;
             }
-
-            form button:hover {
-                background-color: #0056b3;
+            button:hover {
+                background-color: #45a049;
             }
-
-            .result {
+            table {
+                width: 100%;
+                border-collapse: collapse;
                 margin-top: 20px;
-                padding: 10px;
-                border: 1px solid #ccc;
-                border-radius: 4px;
-                text-align: left;
             }
-
-            .result h2 {
-                margin-top: 0;
-                color: #333;
+            th, td {
+                border: 1px solid #ddd;
+                padding: 8px;
+                text-align: center;
             }
-
-            .error {
-                color: red;
-                margin-top: 10px;
+            th {
+                background-color: #4CAF50;
+                color: white;
+            }
+            tr:nth-child(even) {
+                background-color: #f2f2f2;
             }
         </style>
     </head>
@@ -255,40 +250,40 @@ def upload_file():
         <style>
             body {
                 font-family: Arial, sans-serif;
-                background-color: #f0f0f0;
+                line-height: 1.6;
                 margin: 0;
-                padding: 20px;
+                padding: 0;
+                background-color: #f4f4f4;
             }
-
             .container {
-                background-color: #fff;
+                max-width: 800px;
+                margin: 20px auto;
                 padding: 20px;
-                border-radius: 5px;
+                background: #fff;
+                border-radius: 8px;
                 box-shadow: 0 0 10px rgba(0,0,0,0.1);
-                text-align: center;
-                width: 80%;
-                margin: auto;
             }
-
+            h1 {
+                text-align: center;
+                margin-bottom: 20px;
+                color: #333;
+            }
             table {
                 width: 100%;
                 border-collapse: collapse;
                 margin-top: 20px;
             }
-
             th, td {
-                padding: 10px;
-                border: 1px solid #ccc;
+                border: 1px solid #ddd;
+                padding: 8px;
                 text-align: center;
             }
-
             th {
-                background-color: #007BFF;
+                background-color: #4CAF50;
                 color: white;
             }
-
-            td {
-                background-color: #f0f0f0;
+            tr:nth-child(even) {
+                background-color: #f2f2f2;
             }
         </style>
     </head>
@@ -305,9 +300,9 @@ def upload_file():
                     </tr>
                 </thead>
                 <tbody>
-                    {% for i, rpm in enumerate(new_map['y_axis']) %}
+                    {% for i in range(new_map['y_axis']|length) %}
                     <tr>
-                        <td>{{ rpm }}</td>
+                        <td>{{ new_map['y_axis'][i] }}</td>
                         {% for j in range(new_map['x_axis']|length) %}
                         <td>{{ new_map['map'][i][j] }}</td>
                         {% endfor %}
